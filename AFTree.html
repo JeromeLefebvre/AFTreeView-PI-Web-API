@@ -1,0 +1,54 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+    <title>AF Hierarchy Viewer</title>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>  
+    <script type="text/javascript">  
+        //Please enter tree's root element's WebID address.  
+        var PIWebAPIServerName = 'localhost';
+        var assetdatabaseWebID = 'D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF'
+
+        var PICoresightServerName = 'localhost';
+        
+        var RootElement = 'https://' + PIWebAPIServerName + '/piwebapi/assetdatabases/' + assetdatabaseWebID + '/elements';  
+        //Display path and CurrentElement  
+        var DisplayPath = 'https://' + PICoresightServerName + '/Coresight/PB/#/PBDisplays/40102?HideToolBar&CurrentElement=';  
+         
+        function node(name, type, links, parentDiv, path) {  
+          this.type = type;  
+          this.links = links;          
+          parentDiv.append('<li class=" + type + "><a href="'+ DisplayPath + path  + '" target="F2">' + name + '</a></li>');  
+          this.div = $('<ul></ul>').appendTo(parentDiv);
+        }  
+         
+        function loadChildren(n) {
+          $.ajax({
+              async: false,
+              type: 'GET',
+              url: n.links["Elements"],
+              success: function(collection) {  
+              collection.Items.map(function (item) {  
+                 var newNode = new node(item.Name, "Elements", item.Links, n.div, item.Path);
+                 loadChildren(newNode);
+              });
+            }
+          });
+        }  
+                  
+        $(function() {  
+          root = new node('Elements', 'Elements', {Elements: RootElement}, $("#root"));
+          loadChildren(root); 
+        }); 
+    </script>  
+    <style type="text/css">  
+        div {  
+          left: 10px;  
+          position: relative;  
+        }  
+    </style>  
+</head>  
+<body>  
+  <div id="root"></div>  
+</body>  
+</html>  
+
