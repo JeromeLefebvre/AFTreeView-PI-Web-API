@@ -33,9 +33,9 @@
         type: 'GET',
         url: n.links["Elements"],
         crossDomain: true,
-        //xhrFields: { 
-        //  withCredentials: true 
-        //}, 
+        xhrFields: { 
+          withCredentials: true 
+        }, 
         success: function (collection) {
           collection.Items.map(function (item) {
             var newNode = new node(item.Name, "Elements", item.Links, n.div, item.Path);
