@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <meta name="robots" content="noindex, nofollow">
+      <meta name="googlebot" content="noindex, nofollow">
+      <script type="text/javascript" src="/js/lib/dummy.js"></script>
+      <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+      <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+      <script type="text/javascript" src="http://code.angularjs.org/angular-1.0.0rc8.js"></script>
+      <style type="text/css">
+         ul {
+         list-style: circle;
+         }
+         li {
+         margin-left: 20px;
+         }
+      </style>
+      <title>Angular: AF Treeview</title>
+   </head>
+   <body ng-app="myApp">
+      <script type="text/ng-template" id="tree_item_renderer.html">
+         {{data.name}}
+         <ul>
+           <li ng-repeat="data in data.children" ng-include="'tree_item_renderer.html'"></li>
+         </ul>
+      </script>
+      <ul ng-app="Application" ng-controller="TreeController">
+         <li ng-repeat="data in tree" ng-include="'tree_item_renderer.html'"></li>
+      </ul>
+      <script type='text/javascript'>//<![CDATA[
+         angular.module("myApp", []).
+         controller("TreeController", ['$scope', '$http', function($scope, $http) {
+           $scope.add = function(data) {
+             $http({
+               method: 'GET',
+               url: data.link
+             }).then(function donothing(collection) {
+               collection.data.Items.map(function(item) {
+                 data.children.push({
+                   name: item.Name,
+                   children: [],
+                   link: item.Links.Elements
+                 });
+               });
+               for (d in data.children) {
+                 $scope.add(data.children[d]);
+               }
+             });
+           };
+           $scope.tree = [{
+             name: "Elements",
+             children: [],
+             link: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/elements'
+           }];
+           $scope.add($scope.tree[0]);
+         }]);         
+      </script>
+   </body>
+</html>
