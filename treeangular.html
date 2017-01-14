@@ -37,7 +37,8 @@
             $scope.add = function (data) {
               $http({
                 method: 'GET',
-                url: data.link
+                url: data.link,
+                withCredentials: true
               }).then(function donothing(collection) {
                 collection.data.Items.map(function (item) {
                   data.children.push({
