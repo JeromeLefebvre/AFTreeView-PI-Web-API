@@ -35,12 +35,12 @@
 
   angular.module("myApp", []).
     controller("TreeController", ['$scope', '$http', function ($scope, $http) {
-      function getURLforElement(elementPath) {
+      function getURLforElement(element) {
         
         var body = {
           "GetElement": {
             "Method": "GET",
-            "Resource": "https://localhost/piwebapi/elements/E0wiLD-Uw1bkKJgzGGPOuvBgCq8QOCya5hGb2YAACxntxQSkxFRkVCVlJFTkVXXFVSSVxHT09HTEUgTUFQ"
+            "Resource": element.link
           },
           "GetURLAttribute": {
             "Method": "Get",
@@ -66,7 +66,7 @@
           withCredentials: true,
           data: body
         }).then(function alertOfResult(result) {
-          alert("hi");
+          alert(element.link);
         });
       }
 
@@ -77,13 +77,14 @@
           withCredentials: true
         }).then(function cretateNode(collection) {
           collection.data.Items.map(function (item) {
-
-            data.children.push({
+            var newBranch = {
               name: item.Name,
               children: [],
               link: item.Links.Elements,
               selfLink: item.Links.Self
-            });
+            }
+            data.children.push(newBranch);
+            getURLforElement(newBranch);
           });
           for (d in data.children) {
             $scope.add(data.children[d]);
@@ -94,9 +95,9 @@
         name: "エレメント",
         children: [],
         link: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/elements',
-        selfLink: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/'
+        selfLink: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/',
       }];
-      alert("hi");
+      //alert("hi");
       getURLforElement("hi");
       $scope.add($scope.tree[0]);
     }]);         
