@@ -23,7 +23,7 @@
 
 <body ng-app="myApp">
   <script type="text/ng-template" id="tree_item_renderer.html">
-         <a ng-href="{{data.selfLink}}">{{data.name}}</a>
+         <a ng-href="{{data.url}}">{{data.name}}</a>
          <ul>
            <li ng-repeat="data in data.children" ng-include="'tree_item_renderer.html'"></li>
          </ul>
@@ -40,7 +40,7 @@
         var body = {
           "GetElement": {
             "Method": "GET",
-            "Resource": element.link
+            "Resource": element.selfLink
           },
           "GetURLAttribute": {
             "Method": "Get",
@@ -66,7 +66,7 @@
           withCredentials: true,
           data: body
         }).then(function alertOfResult(result) {
-          alert(element.link);
+          element.url = result.data.GetValue.Content.Value;
         });
       }
 
@@ -94,11 +94,10 @@
       $scope.tree = [{
         name: "エレメント",
         children: [],
-        link: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/elements',
-        selfLink: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/',
+        link: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgE-16jeutB0q6jIYSXR2lxASkxFRkVCVlJFTkVXXFVSTA/elements',
+        selfLink: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgE-16jeutB0q6jIYSXR2lxASkxFRkVCVlJFTkVXXFVSTA/',
       }];
-      //alert("hi");
-      getURLforElement("hi");
+      getURLforElement();
       $scope.add($scope.tree[0]);
     }]);         
 </script>
