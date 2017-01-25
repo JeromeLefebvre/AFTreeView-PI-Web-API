@@ -35,38 +35,40 @@
 
   angular.module("myApp", []).
     controller("TreeController", ['$scope', '$http', function ($scope, $http) {
-        function getURLforElement(elementPath) {
-    var body = {
-      "GetElement": {
-        "Method": "GET",
-        "Resource": "https://localhost/piwebapi/elements/E0wiLD-Uw1bkKJgzGGPOuvBgCq8QOCya5hGb2YAACxntxQSkxFRkVCVlJFTkVXXFVSSVxHT09HTEUgTUFQ"
-      },
-      "GetURLAttribute": {
-        "Method": "Get",
-        "Resource": "https://localhost/piwebapi/attributes?path={0}|Location",
-        "ParentIds": [
-          "GetElement"
-        ],
-        "Parameters": ["$.GetElement.Content.Path"]
-      },
-      "GetValue": {
-        "Method": "Get",
-        "Resource": "{0}",
-        "ParentIds": [
-          "GetURLAttribute"
-        ],
-        "Parameters": ["$.GetURLAttribute.Content.Links.Value"]
+      function getURLforElement(elementPath) {
+        
+        var body = {
+          "GetElement": {
+            "Method": "GET",
+            "Resource": "https://localhost/piwebapi/elements/E0wiLD-Uw1bkKJgzGGPOuvBgCq8QOCya5hGb2YAACxntxQSkxFRkVCVlJFTkVXXFVSSVxHT09HTEUgTUFQ"
+          },
+          "GetURLAttribute": {
+            "Method": "Get",
+            "Resource": "https://localhost/piwebapi/attributes?path={0}|Location",
+            "ParentIds": [
+              "GetElement"
+            ],
+            "Parameters": ["$.GetElement.Content.Path"]
+          },
+          "GetValue": {
+            "Method": "Get",
+            "Resource": "{0}",
+            "ParentIds": [
+              "GetURLAttribute"
+            ],
+            "Parameters": ["$.GetURLAttribute.Content.Links.Value"]
+          }
+        }
+
+        $http({
+          method: 'POST',
+          url: 'https://localhost/piwebapi/batch',
+          withCredentials: true,
+          data: body
+        }).then(function alertOfResult(result) {
+          alert("hi");
+        });
       }
-    }
-    $http({
-      method: 'POST',
-      url: 'https://localhost/piwebapi/batch',
-      withCredentials: true,
-      data: body
-    }).then(function alertOfResult(result) {
-      alert("hi");
-    });
-  }
 
       $scope.add = function (data) {
         $http({
@@ -94,6 +96,7 @@
         link: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/elements',
         selfLink: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgh2D-vQWeY0KQ78v8WoRGiwSkxFRkVCVlJFTkVXXEtJVEpBUEFORVNF/'
       }];
+      alert("hi");
       getURLforElement("hi");
       $scope.add($scope.tree[0]);
     }]);         
