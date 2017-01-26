@@ -36,7 +36,6 @@
   angular.module("myApp", []).
     controller("TreeController", ['$scope', '$http', function ($scope, $http) {
       function getURLforElement(element) {
-        
         var body = {
           "GetElement": {
             "Method": "GET",
@@ -81,7 +80,8 @@
               name: item.Name,
               children: [],
               link: item.Links.Elements,
-              selfLink: item.Links.Self
+              selfLink: item.Links.Self,
+              attributes: [] // fetch the attribute tree
             }
             data.children.push(newBranch);
             getURLforElement(newBranch);
@@ -94,6 +94,7 @@
       $scope.tree = [{
         name: "エレメント",
         children: [],
+        attributes: [],
         link: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgE-16jeutB0q6jIYSXR2lxASkxFRkVCVlJFTkVXXFVSTA/elements',
         selfLink: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgE-16jeutB0q6jIYSXR2lxASkxFRkVCVlJFTkVXXFVSTA/',
       }];
