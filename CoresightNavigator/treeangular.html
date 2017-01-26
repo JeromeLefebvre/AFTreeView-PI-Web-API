@@ -23,7 +23,7 @@
 
 <body ng-app="myApp">
   <script type="text/ng-template" id="tree_item_renderer.html">
-         <a ng-href="{{data.url}}">{{data.name}}</a>
+         <a ng-href="{{data.url}}" target="F2">{{data.name}}</a>
          <ul>
            <li ng-repeat="data in data.children" ng-include="'tree_item_renderer.html'"></li>
          </ul>
@@ -97,7 +97,6 @@
         link: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgE-16jeutB0q6jIYSXR2lxASkxFRkVCVlJFTkVXXFVSTA/elements',
         selfLink: 'https://localhost/piwebapi/assetdatabases/D0wiLD-Uw1bkKJgzGGPOuvBgE-16jeutB0q6jIYSXR2lxASkxFRkVCVlJFTkVXXFVSTA/',
       }];
-      getURLforElement();
       $scope.add($scope.tree[0]);
     }]);         
 </script>
